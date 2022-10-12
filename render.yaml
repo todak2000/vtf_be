@@ -1,0 +1,19 @@
+databases:
+  - name: vtf_server_db
+    databaseName: vtf_server_db
+    user: vtf_server_user
+
+services:
+  - type: web
+    name: vtf_server
+    env: python
+    repo: https://github.com/todak2000/vtf_be
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn vtf_server.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: vtf_server_db
+          property: connectionString
+      - key: WEB_CONCURRENCY
+        value: 4
