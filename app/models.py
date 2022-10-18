@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 import json
 import datetime
-
+from PIL import Image
 # Create your models here.
 
 
@@ -24,6 +24,10 @@ TIMEZONE_CHOICES = (
 # ISACA Event Schedule Model
 
 
+def upload_to(instance, filename):
+    return 'images/{filename}'.format(filename=filename)
+
+
 class EventSchedule(models.Model):
     class Meta:
         db_table = "EventSchedule_Table"
@@ -37,6 +41,8 @@ class EventSchedule(models.Model):
         verbose_name="Time Zone", max_length=20, choices=TIMEZONE_CHOICES, default="PST")
     time = models.TimeField(auto_now=False, auto_now_add=False,
                             verbose_name="Event Time", null=True, blank=True)
+    image_url = models.ImageField(
+        upload_to=upload_to, blank=True, null=True, verbose_name="Speaker Picture")
     date_added = models.DateTimeField(auto_now=True)
 
     def long(self):

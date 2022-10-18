@@ -14,3 +14,4 @@ python-decouple==3.6
 python-jose-cryptodome
 coverage
 deprecated
+pillow
